@@ -41,3 +41,7 @@ userProfile
     NewPassword
     WishList
 OrderTracking
+
+
+
+Do `git merge upstream/main` to update your forked repository with the latest changes from the original repository. This command will merge the changes from the `main` branch of the original repository (referred to as `upstream`) into your current branch. Make sure you have added the original repository as a remote named `upstream` before running this command.
