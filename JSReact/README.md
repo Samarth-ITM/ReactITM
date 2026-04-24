@@ -14,33 +14,3 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-
-
-
-
-## Pages
-HomePage
-    Category
-    Subcategory
-    searchresults
-ProductListing
-ProductDetails
-ProductReview
-Cart
-    Address
-    Payment
-    OrderSuccesPge
-    OrderFailure
-Checkout
-OrderHistory
-userProfile
-    Login
-    SignUp
-    ForgotPassword
-    OTPVerification
-    NewPassword
-    WishList
-OrderTracking
-
-
-Do `git merge upstream/main` to update your forked repository with the latest changes from the original repository. This command will merge the changes from the `main` branch of the original repository (referred to as `upstream`) into your current branch. Make sure you have added the original repository as a remote named `upstream` before running this command.
