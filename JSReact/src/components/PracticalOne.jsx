@@ -7,21 +7,22 @@ function HookEx() {
         fetch("https://jsonplaceholder.typicode.com/users")
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);   // log here
+                console.log(data);
                 setUsers(data);
             });
     }, []);
 
-    console.log(users); // this is fine
+    console.log(users);
 
     return (
-        <>
-            <div className="text-left p-8">
-                <h2>Users List</h2>
-                {users.map(user =>
-                    <p key={user.id} className="text-blue-500">{user.name}</p>)}
-            </div>
-        </>
+        <div className="text-left p-8">
+            <h2>Users List</h2>
+            {users.map((user) => (
+                <div key={user.id}>
+                    <p className="text-blue-500">{user.name}</p>
+                </div>
+            ))}
+        </div>
     );
 }
 
