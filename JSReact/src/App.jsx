@@ -1,13 +1,12 @@
-import RandomUser from './components/EffectHook';
+import ReferenceHook from './components/Rh';
+import Memoised from './components/Memoised';
 
 const App = () => {
   return (
-    <>
-      <div className="App flex gap-10 p-10" >
-        <h1 className="text-2xl font-bold">React Hooks</h1>
-        <RandomUser />
-      </div>
-    </>
+    <div>
+      <ReferenceHook />
+      <Memoised />
+    </div>
   )
 }
 
