@@ -1,111 +1,145 @@
-/* eslint-disable no-unused-vars */
-import { useRef } from "react"
-import { useContext } from "react"
-import { useEffect } from "react"
-import React, { useState } from 'react'
+import { useEffect, useRef, useState } from "react"
 import './home.css'
 
 
-
+const BREAK_SECONDS = 300
 
 const Home = () => {
-    const [time, setTime] = useState(0)
+    const [workMinutes, setWorkMinutes] = useState(25)
+    const [secondsLeft, setSecondsLeft] = useState(25 * 60)
     const [isRunning, setIsRunning] = useState(false)
-    const [laps, setLaps] = useState([])
+    const [isBreak, setIsBreak] = useState(false)
+    const [breaksTaken, setBreaksTaken] = useState(0)
+    const pausedtime = useRef(0)
+    const maxBreaks = Math.floor(workMinutes / 20)
+    const breaksLeft = Math.max(0, maxBreaks - breaksTaken)
 
+    function handleReset() {
+        setIsRunning(false)
+        setIsBreak(false)
+        setSecondsLeft(workMinutes * 60)
+        setBreaksTaken(0)
+        pausedtime.current = 0
+    }
 
-    function handleStart() {
+    function handleWork() {
+        setIsBreak(false)
+        setSecondsLeft(workMinutes * 60)
         setIsRunning(true)
     }
 
-    function handlePause() {
-        setIsRunning(false)
-    }
+    function handleBreak() {
+        if (breaksLeft <= 0) {
+            return
+        }
 
-
-    function handleLap() {
-        setLaps(prevLaps => [time, ...prevLaps])
+        if (!isBreak) {
+            pausedtime.current = secondsLeft
+        }
+        setIsBreak(true)
+        setSecondsLeft(BREAK_SECONDS)
+        setBreaksTaken(prev => prev + 1)
+        setIsRunning(true)
     }
 
     useEffect(() => {
-        let interval = null
-
-        if (isRunning) {
-            interval = setInterval(() => {
-                setTime(prevTime => prevTime + 1)
-            }, 10)
-        } else {
-            clearInterval(interval)
+        if (!isRunning) {
+            return
         }
 
+        const interval = setInterval(() => {
+            setSecondsLeft(prevSeconds => {
+                if (prevSeconds <= 1) {
+                    if (isBreak) {
+                        setIsBreak(false)
+                        return pausedtime.current || workMinutes * 60
+                    }
+
+                    setIsRunning(false)
+                    return 0
+                }
+
+                return prevSeconds - 1
+            })
+        }, 1000)
+
         return () => clearInterval(interval)
-    }, [isRunning])
+    }, [isRunning, isBreak, workMinutes])
 
 
-    function formatTime(time) {
-        const hours = Math.floor(time / 360000)
-        const minutes = Math.floor((time % 360000) / 6000)
-        const seconds = Math.floor((time % 6000) / 100)
+    function formatTime(totalSeconds) {
+        const minutes = Math.floor(totalSeconds / 60)
+        const seconds = totalSeconds % 60
 
-        const hoursString = String(hours).padStart(2, '0')
         const minutesString = String(minutes).padStart(2, '0')
         const secondsString = String(seconds).padStart(2, '0')
 
-        return `${hoursString}:${minutesString}:${secondsString}`
+        return `${minutesString}:${secondsString}`
     }
 
     return (
-        <>
+        <div className={`page ${isRunning ? 'running' : ''}`}>
             <div className="home">
-                <h1 className="H">StopWatch</h1>
-                <h2 className="S">By Samarth</h2>
+                <h1 className="H" style={{ display: isBreak || isRunning ? 'none' : 'block' }}>POMODORO</h1>
+                <h2 className="S" style={{ display: isBreak || isRunning ? 'none' : 'block' }}>-Samarth
+                </h2>
+            </div>
+
+            <div className="input-row">
+                <label className="input-label" style={{ display: isRunning ? 'none' : 'block' }}>SetTime:</label>
+                <input
+                    style={{ display: isRunning ? 'none' : 'block' }}
+                    id="work-minutes"
+                    className="time-input"
+                    type="number"
+                    value={workMinutes}
+                    onChange={(event) => {
+                        const nextValue = Number(event.target.value)
+                        if (!Number.isNaN(nextValue) && nextValue >= 25) {
+                            setWorkMinutes(nextValue)
+                            setBreaksTaken(0)
+                            if (!isRunning && !isBreak) {
+                                setSecondsLeft(nextValue * 60)
+                            }
+                        }
+                    }}
+                />
+                <span className="breaks-left" style={{ display: isBreak || breaksLeft <= 0 ? 'none' : 'block' }}>Breaks: {breaksLeft}</span>
             </div>
 
             <div className="stopwatch">
-                <h2>{formatTime(time)}</h2>
+                <h2>{formatTime(secondsLeft)}</h2>
+                <p className="mode">{isBreak ? 'Chill Time' : 'Work Time'}</p>
             </div>
 
             <div className="buttons">
 
                 <button
-                    className={isRunning ? 'pause-btn' : 'start-btn'}
-                    onClick={() => {
-                        setIsRunning(!isRunning);
-                        isRunning ? handlePause : handleStart
-                    }}
+                    className="reset-btn"
+                    onClick={handleReset}
+                    style={{ display: isBreak || !isRunning ? 'none' : 'block' }}
                 >
-                    {isRunning ? 'Pause' : 'Start'}
+                    Reset
+                </button>
+                <button
+                    className="work-btn"
+                    onClick={() => { handleWork() }}
+                    style={{ display: isRunning ? 'none' : 'block' }}
+                >
+                    Work
                 </button>
 
-                <button className="lap-btn" onClick={handleLap}>
-                    Lap
-                </button>
 
                 <button
-                    className="reset-btn"
-                    onClick={() => {
-                        setIsRunning(false)
-                        setTime(0)
-                    }}
+                    className="break-btn"
+                    onClick={handleBreak}
+                    style={{ display: isBreak || !isRunning || breaksLeft <= 0 ? 'none' : 'block' }}
                 >
-                    reset
+                    5 min Break
                 </button>
 
-            </div>
-
-            <div className="laps">
-
-                <button className="clear-btn" onClick={() => setLaps([])}>
-                    {laps.length > 0 ? 'Clear Laps' : '-... .. --. / -.-- .- .... ..-'}
-                </button>
-
-                {laps.map((lap, index) => (
-                    <p className="lap-item" key={index}>
-                        {index + 1}. {formatTime(lap)}
-                    </p>
-                ))}
-            </div>
-        </>
+            </div >
+        </div >
     )
 }
 

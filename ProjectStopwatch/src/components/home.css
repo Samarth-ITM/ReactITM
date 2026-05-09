@@ -1,5 +1,4 @@
 /* Home.css */
-
 body {
     margin: 0;
     padding: 0;
@@ -48,6 +47,14 @@ body {
     box-shadow: 1px 2px rgba(1, 0, 0, 1.5);
 }
 
+.mode {
+    margin-top: 14px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #111827;
+    text-transform: uppercase;
+}
+
 .buttons {
     display: flex;
     justify-content: center;
@@ -55,17 +62,69 @@ body {
     margin-bottom: 50px;
 }
 
+.input-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 30px;
+    color: #111827;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.input-label {
+    margin-right:-10px;
+    letter-spacing: 1px;
+}
+
+.time-input {
+    width: 120px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 2px solid blueviolet;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.breaks-left {
+    background-color: #111827;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 12px;
+}
+
 .start-btn,
 .pause-btn,
-.lap-btn,
 .reset-btn,
-.clear-btn {
+.break-btn {
     padding: 20px 30px;
     border: 2px solid blueviolet;
     border-radius: 14px;
     font-size: 30px;
     font-weight: bold;
     color: white;
+}
+
+.work-btn {
+    background-color: lightgoldenrodyellow;
+    color: black;
+    padding: 20px 50px;
+    border: 2px solid blueviolet;
+    border-radius: 14px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.work-btn:hover {
+    background-color: darkgoldenrod;
+    color: black;
+    padding: 20px 50px;
+    border: 2px solid blueviolet;
+    border-radius: 14px;
+    font-size: 30px;
+    font-weight: bold;
 }
 
 .start-btn {
@@ -84,14 +143,6 @@ body {
     background-color: darkblue;
 }
 
-.lap-btn {
-    background-color: darkgrey;
-}
-
-.lap-btn:hover {
-    background-color:  gray;
-}
-
 .reset-btn {
     background-color: darkred;
 }
@@ -100,36 +151,16 @@ body {
     background-color: black;
 }
 
-.laps {
-    width: 500px;
-    margin: 0 auto;
-    background-color: #111827;
-    padding: 25px;
-    border-radius: 20px;
-    border: 5px solid blueviolet;
-    text-align: center;
-}
-
-.laps h2 {
-    margin-bottom: 20px;
-    font-size: 2rem;
-}
-
-.clear-btn {
-    background-color: rgba(255, 68, 0, 0.809);
-    margin-bottom: 20px;
-}
-
-.clear-btn:hover {
-    background-color: orangered;
-}
-
-.lap-item {
-    background-color: yellow;
+.break-btn {
+    background-color: orange;
     color: black;
-    margin-bottom: 12px;
-    padding: 15px;
-    border-radius: 12px;
-    font-size: 2rem;
-    font-family: monospace;
+}
+
+.break-btn:hover {
+    background-color: darkorange;
+}
+
+.break-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
