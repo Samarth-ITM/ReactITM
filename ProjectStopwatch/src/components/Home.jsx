@@ -85,6 +85,11 @@ const Home = () => {
                 </h2>
             </div>
 
+            <h1 className="mode"
+                style={{ display: !isRunning ? 'none' : 'block' }}
+
+            >{isBreak ? 'Chill Time' : 'Work Time'}</h1>
+
             <div className="input-row">
                 <label className="input-label" style={{ display: isRunning ? 'none' : 'block' }}>SetTime:</label>
                 <input
@@ -104,12 +109,14 @@ const Home = () => {
                         }
                     }}
                 />
+
                 <span className="breaks-left" style={{ display: isBreak || breaksLeft <= 0 ? 'none' : 'block' }}>Breaks: {breaksLeft}</span>
             </div>
 
             <div className="stopwatch">
+
                 <h2>{formatTime(secondsLeft)}</h2>
-                <p className="mode">{isBreak ? 'Chill Time' : 'Work Time'}</p>
+
             </div>
 
             <div className="buttons">
